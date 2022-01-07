@@ -14,12 +14,17 @@ public class CounterTrafficControlPolicy implements TrafficControlPolicy {
     }
 
     public void addPolicy(CharSequence key, int limit) {
-        controlMap.put(key, new Rate(limit));
+        controlMap.put(key, new Rate(limit, RESOLUTION));
     }
 
     @Override
     public Rate getRate(CharSequence key) {
         return controlMap.get(key);
+    }
+
+    @Override
+    public void clear() {
+        controlMap.clear();
     }
 
     @Override
@@ -46,6 +51,8 @@ public class CounterTrafficControlPolicy implements TrafficControlPolicy {
             n /= RESOLUTION;
         }
 
-        return n > rate.limit;
+        System.out.println("Rate: " + n + "in" + RESOLUTION + " seconds.");
+
+        return (int)n > rate.limit;
     }
 }

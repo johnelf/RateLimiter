@@ -1,13 +1,15 @@
 package com.traffic.demo;
 
+import java.util.concurrent.TimeUnit;
+
 public class Rate {
-    public final int limit;
-    public long reset;
+    final int limit;
+    long reset;
     public long count;
 
-    public Rate(int limit) {
+    Rate(int limit, long RESOLUTION) {
         this.limit = limit;
-        this.reset = System.currentTimeMillis();
+        this.reset = System.currentTimeMillis() + RESOLUTION * TimeUnit.SECONDS.toMillis(1);;
         this.count = 0;
     }
 }

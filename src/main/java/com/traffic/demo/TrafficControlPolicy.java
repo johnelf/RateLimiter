@@ -6,4 +6,6 @@ public interface TrafficControlPolicy {
     void addPolicy(CharSequence key, int limit);
 
     Rate getRate(CharSequence key);
+
+    void clear();
 }
