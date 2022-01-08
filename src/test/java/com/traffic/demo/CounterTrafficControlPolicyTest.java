@@ -64,4 +64,18 @@ public class CounterTrafficControlPolicyTest {
         }
 
     }
+
+    @Test
+    public void shouldNotThrottleWhenInNextWindow() throws InterruptedException {
+        policy.addPolicy(CLIENT_NAME, 2);
+        policy.shouldThrottle(CLIENT_NAME);
+        policy.shouldThrottle(CLIENT_NAME);
+        boolean shouldBeThrottled = policy.shouldThrottle(CLIENT_NAME);
+        assertTrue(shouldBeThrottled);
+
+        Thread.sleep(1000);
+        boolean isThrottled = policy.shouldThrottle(CLIENT_NAME);
+        assertFalse(isThrottled);
+    }
+
 }

@@ -43,6 +43,7 @@ public class CounterTrafficControlPolicy implements TrafficControlPolicy {
         long now = System.currentTimeMillis();
         synchronized (rate) {
             if (rate.reset < now) {
+                System.out.println("now: " + now);
                 rate.reset = now + RESOLUTION / TimeUnit.SECONDS.toMillis(1);
                 rate.count = 0;
             }
@@ -51,7 +52,7 @@ public class CounterTrafficControlPolicy implements TrafficControlPolicy {
             n /= RESOLUTION;
         }
 
-        System.out.println("Rate: " + n + "in" + RESOLUTION + " seconds.");
+        System.out.println("Rate: " + n + " in " + RESOLUTION + " seconds.");
 
         return (int)n > rate.limit;
     }
