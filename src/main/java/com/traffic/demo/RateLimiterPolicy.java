@@ -1,6 +1,6 @@
 package com.traffic.demo;
 
-public interface TrafficControlPolicy {
+public interface RateLimiterPolicy {
     boolean shouldThrottle(CharSequence key);
 
     void addPolicy(CharSequence key, int limit);

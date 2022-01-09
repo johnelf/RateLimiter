@@ -11,14 +11,14 @@ import java.util.concurrent.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class CounterTrafficControlPolicyTest {
+public class CounterRateLimiterPolicyTest {
 
-    private TrafficControlPolicy policy;
+    private RateLimiterPolicy policy;
     private static final String CLIENT_NAME = "clientName";
 
     @Before
     public void setup() {
-        policy = new CounterTrafficControlPolicy();
+        policy = new CounterRateLimiterPolicy();
     }
 
     @After
@@ -27,7 +27,7 @@ public class CounterTrafficControlPolicyTest {
     }
 
     @Test
-    public void counterTrafficControlPolicyShouldNotThrottle() {
+    public void counterrateLimiterPolicyShouldNotThrottle() {
         policy.addPolicy(CLIENT_NAME, 100);
         Rate rate = policy.getRate(CLIENT_NAME);
         rate.count = 90;

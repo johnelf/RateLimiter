@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class CounterTrafficControlPolicy implements TrafficControlPolicy {
+public class CounterRateLimiterPolicy implements RateLimiterPolicy {
 
     private Map<CharSequence, Rate> controlMap;
     private final int RESOLUTION = 1; // per second
 
-    public CounterTrafficControlPolicy() {
+    public CounterRateLimiterPolicy() {
         controlMap = new HashMap<>();
     }
 

@@ -1,6 +1,6 @@
-# TrafficControl Demo
+# RateLimiter
 
-Traffic volume control for microservice.
+RateLimiter for microservice.
 
 There are multiple algorithm to manage high volume of coming traffic for microservice.
 
