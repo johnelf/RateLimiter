@@ -17,12 +17,10 @@ public class CounterRateLimiterPolicy implements RateLimiterPolicy {
         controlMap.put(key, new Rate(limit, RESOLUTION));
     }
 
-    @Override
     public Rate getRate(CharSequence key) {
         return controlMap.get(key);
     }
 
-    @Override
     public void clear() {
         controlMap.clear();
     }

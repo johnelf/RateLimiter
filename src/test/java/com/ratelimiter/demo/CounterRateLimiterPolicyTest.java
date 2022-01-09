@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 public class CounterRateLimiterPolicyTest {
 
-    private RateLimiterPolicy policy;
+    private CounterRateLimiterPolicy policy;
     private static final String CLIENT_NAME = "clientName";
 
     @Before

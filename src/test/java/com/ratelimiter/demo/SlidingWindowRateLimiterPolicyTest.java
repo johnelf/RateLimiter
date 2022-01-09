@@ -1,8 +1,14 @@
 package com.ratelimiter.demo;
 
+import com.ratelimiter.demo.slidingwindow.SlidingWindowRateLimiterPolicy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertTrue;
 
@@ -13,7 +19,7 @@ public class SlidingWindowRateLimiterPolicyTest {
 
     @Before
     public void setup() {
-        policy = new SlidingWindowRateLimiterPolicy();
+        policy = new SlidingWindowRateLimiterPolicy(TimeUnit.SECONDS, 1, 10);
     }
 
     @After
@@ -26,7 +32,7 @@ public class SlidingWindowRateLimiterPolicyTest {
         policy.addPolicy(CLIENT_NAME, 5);
 
         Thread.sleep(500);
-        sendRequests(4);
+        sendRequests(5);
         // Assuming that the consequent requests only took few ms to finish
         // and in the next second surge requests would be throttled given we
         // are using sliding window

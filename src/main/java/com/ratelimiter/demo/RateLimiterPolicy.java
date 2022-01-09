@@ -1,11 +1,5 @@
 package com.ratelimiter.demo;
 
-public interface RateLimiterPolicy {
+public interface RateLimiterPolicy<T> {
     boolean shouldThrottle(CharSequence key);
-
-    void addPolicy(CharSequence key, int limit);
-
-    Rate getRate(CharSequence key);
-
-    void clear();
 }
