@@ -1,4 +1,4 @@
-package com.traffic.demo;
+package com.ratelimiter.demo;
 
 public class SlidingWindowRateLimiterPolicy implements RateLimiterPolicy {
     @Override

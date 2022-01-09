@@ -1,8 +1,10 @@
-package com.traffic.demo;
+package com.ratelimiter.demo;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 public class SlidingWindowRateLimiterPolicyTest {
 
@@ -29,8 +31,8 @@ public class SlidingWindowRateLimiterPolicyTest {
         // and in the next second surge requests would be throttled given we
         // are using sliding window
         Thread.sleep(500);
-        policy.shouldThrottle(CLIENT_NAME);
-
+        boolean shouldThrottle = policy.shouldThrottle(CLIENT_NAME);
+        assertTrue(shouldThrottle);
     }
 
     private void sendRequests(int numOfReq) {

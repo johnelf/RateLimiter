@@ -1,4 +1,4 @@
-package com.traffic.demo;
+package com.ratelimiter.demo;
 
 import org.junit.After;
 import org.junit.Before;

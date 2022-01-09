@@ -1,4 +1,4 @@
-package com.traffic.demo;
+package com.ratelimiter.demo;
 
 public interface RateLimiterPolicy {
     boolean shouldThrottle(CharSequence key);
