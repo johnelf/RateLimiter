@@ -18,7 +18,9 @@ public class SlidingRate {
                        final TimeUnit unit) {
         this.rates = new LinkedList<>();
         long startTimestamp = System.currentTimeMillis();
-        initRates(numOfWindow, windowSize, unit, startTimestamp);
+        for (int i = 0; i < numOfWindow; i++) {
+            rates.addLast(new Window(startTimestamp + i * unit.toMillis(windowSize)));
+        }
         this.numOfWindow = numOfWindow;
         this.unit = unit;
         this.windowSize = windowSize;
@@ -26,9 +28,20 @@ public class SlidingRate {
         this.totalRates = 0;
     }
 
-    private void initRates(int numOfWindow, int windowSize, TimeUnit unit, long startTimestamp) {
-        for (int i = 0; i < numOfWindow; i++) {
-            this.rates.addLast(new Window(startTimestamp + i * unit.toMillis(windowSize)));
+    private void initRates(int windowSize, TimeUnit unit, long startTimestamp) {
+        long windowEndTime = getWindowEndTime();
+        long curIndex = (startTimestamp - windowEndTime) / unit.toMillis(windowSize);
+        for (int i = 0; i <= curIndex; i++) {
+            rates.addLast(new Window(startTimestamp + i * unit.toMillis(windowSize)));
+        }
+
+        Iterator<Window> iterator = rates.iterator();
+        for (int i = 0; i <= curIndex; i++) {
+            if (iterator.hasNext()) {
+                Window window = iterator.next();
+                iterator.remove();
+                totalRates -= window.count;
+            }
         }
     }
 
@@ -65,7 +78,7 @@ public class SlidingRate {
             }
             return window;
         } else if (now > windowEndTime) {
-            initRates(numOfWindow, windowSize, unit, now);
+            initRates(windowSize, unit, now);
             return locateWindow(now);
         } else {
             // Invalid use cases

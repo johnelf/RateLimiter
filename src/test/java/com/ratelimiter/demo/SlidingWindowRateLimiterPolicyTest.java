@@ -5,11 +5,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class SlidingWindowRateLimiterPolicyTest {
@@ -19,7 +21,7 @@ public class SlidingWindowRateLimiterPolicyTest {
 
     @Before
     public void setup() {
-        policy = new SlidingWindowRateLimiterPolicy(TimeUnit.SECONDS, 1, 10);
+        policy = new SlidingWindowRateLimiterPolicy(TimeUnit.SECONDS, 1, 3);
     }
 
     @After
@@ -28,7 +30,7 @@ public class SlidingWindowRateLimiterPolicyTest {
     }
 
     @Test
-    public void shouldThrottle() throws InterruptedException {
+    public void shouldThrottleInTwoSeconds() throws InterruptedException {
         policy.addPolicy(CLIENT_NAME, 5);
 
         Thread.sleep(500);
@@ -39,6 +41,29 @@ public class SlidingWindowRateLimiterPolicyTest {
         Thread.sleep(500);
         boolean shouldThrottle = policy.shouldThrottle(CLIENT_NAME);
         assertTrue(shouldThrottle);
+    }
+
+    @Test
+    public void shouldThrottleWhenStillInSlidingWindow() throws InterruptedException {
+        policy.addPolicy(CLIENT_NAME, 5);
+
+        sendRequests(5);
+
+        Thread.sleep(2);
+
+        boolean shouldThrottle = policy.shouldThrottle(CLIENT_NAME);
+        assertTrue(shouldThrottle);
+    }
+
+    @Test
+    public void shouldNotThrottleWhenNoInSlidingWindow() throws InterruptedException {
+        policy.addPolicy(CLIENT_NAME, 5);
+
+        sendRequests(5);
+
+        Thread.sleep(3000);
+
+        assertFalse(policy.shouldThrottle(CLIENT_NAME));
     }
 
     private void sendRequests(int numOfReq) {
