@@ -1,5 +1,6 @@
 package com.ratelimiter.demo;
 
+import com.ratelimiter.demo.ringbuffer.RingBufferRateLimiterPolicy;
 import com.ratelimiter.demo.slidingwindow.SlidingWindowRateLimiterPolicy;
 import org.junit.After;
 import org.junit.Before;
@@ -10,14 +11,13 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class SlidingWindowRateLimiterPolicyTest {
-
-    private SlidingWindowRateLimiterPolicy policy;
+public class RingBufferRateLimiterPolicyTest {
+    private RingBufferRateLimiterPolicy policy;
     private static final String CLIENT_NAME = "OneClient";
 
     @Before
     public void setup() {
-        policy = new SlidingWindowRateLimiterPolicy(TimeUnit.SECONDS, 1, 3);
+        policy = new RingBufferRateLimiterPolicy(TimeUnit.SECONDS, 1, 3);
     }
 
     @After
